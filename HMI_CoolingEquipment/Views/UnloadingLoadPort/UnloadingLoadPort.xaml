@@ -1,0 +1,295 @@
+﻿<UserControl x:Class="HMI_CoolingEquipment.Views.UnloadingLoadPort"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             SnapsToDevicePixels="True">
+    <Viewbox>
+        <Grid UseLayoutRounding="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="150"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MinWidth="700"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="0" Grid.Column="0">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Lot ID" Style="{DynamicResource MaterialDesignTitleTextBlock}"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="500"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="150"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" CornerRadius="2" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Right" Width="500" Height="40">
+                            <TextBox VerticalAlignment="Center" Margin="10 0 10 0" FontSize="20" x:Name="LotIDTxtBox"/>
+                        </Border>
+                        <Button Grid.Column="1" Content="Scan" Margin="10 0 0 0" Command="{Binding ViewModel.UnloadLoadPortCommand}" CommandParameter="{Binding ElementName=LotIDTxtBox}" IsDefault="True" IsEnabled="{Binding ViewModel.UnloadBtnEnable}"/>
+                        <Button Grid.Column="2" Content="View Job List" Margin="10 0 0 0" Command="{Binding ViewModel.JobListDetailsCommand}"/>
+                    </Grid>
+
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="0">
+                <GroupBox Header="Unloading Load Port Location" Margin="0 10 0 0">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding ViewModel.UnloadPortLocationLogs}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" x:Name="StackLocation"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Value}" FontSize="25" Margin="6 0 0 0"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </GroupBox>
+            </Grid>
+            <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="10 0 10 -4">
+                <GroupBox Header="Activity Log">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding ViewModel.UnloadPortLogs}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Value}" FontSize="25" Margin="6 0 0 0" TextWrapping="Wrap"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </GroupBox>
+            </Grid>
+            <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding ViewModel.LoadPort_VM}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="905"/>
+                    <ColumnDefinition Width="13"/>
+                    <ColumnDefinition Width="702"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="1" Grid.ColumnSpan="3" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Grid.Column="0" Height="40">
+                        <StackPanel Orientation="Horizontal">
+                            <Border CornerRadius="2" BorderBrush="Black" BorderThickness="0.5" Height="25" Width="25" HorizontalAlignment="Right" Margin="0 0 0 0">
+                                <Rectangle Grid.Column="0" Fill="{Binding LoadPortColourUnloading}" Stroke="Black" StrokeThickness="1"/>
+                            </Border>
+                            <TextBlock Grid.Column="1" Text="Unloading" Style="{DynamicResource KeyTextBlockStyle}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Viewbox>
+                    <Viewbox Grid.Column="1" Height="40">
+                        <StackPanel Orientation="Horizontal">
+                            <Border CornerRadius="2" BorderBrush="Black" BorderThickness="0.5" Height="25" Width="25" HorizontalAlignment="Right" Margin="0 0 0 0">
+                                <Rectangle Grid.Column="0" Fill="{Binding LoadPortEmptyColour}" Stroke="Black" StrokeThickness="1"/>
+                            </Border>
+                            <TextBlock Grid.Column="1" Text="Empty" Style="{DynamicResource KeyTextBlockStyle}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Viewbox>
+                    <Viewbox Grid.Column="2" Height="40">
+                        <StackPanel Orientation="Horizontal">
+                            <Border CornerRadius="2" BorderBrush="Black" BorderThickness="0.5" Height="25" Width="25" HorizontalAlignment="Right" Margin="0 0 0 0">
+                                <Rectangle Grid.Column="0" Fill="{Binding LoadPortLoadedColour}" Stroke="Black" StrokeThickness="1"/>
+                            </Border>
+                            <TextBlock Grid.Column="1" Text="Loaded" Style="{DynamicResource KeyTextBlockStyle}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Viewbox>
+                    <Viewbox Grid.Column="3" Height="40">
+                        <StackPanel Orientation="Horizontal">
+                            <Border CornerRadius="2" BorderBrush="Black" BorderThickness="0.5" Height="25" Width="25" HorizontalAlignment="Right" Margin="0 0 0 0">
+                                <Rectangle Grid.Column="0" Fill="{Binding LoadPortCoolingCompletedColour}" Stroke="Black" StrokeThickness="1"/>
+                            </Border>
+                            <TextBlock Grid.Column="1" Text="Cooling Completed" Style="{DynamicResource KeyTextBlockStyle}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Viewbox>
+                    <Viewbox Grid.Column="4" Height="40">
+                        <StackPanel Orientation="Horizontal">
+                            <Border CornerRadius="2" BorderBrush="Black" BorderThickness="0.5" Height="25" Width="25" HorizontalAlignment="Right" Margin="0 0 0 0">
+                                <Rectangle Grid.Column="0" Fill="{Binding LoadPortDisabledColour}" Stroke="Black" StrokeThickness="1"/>
+                            </Border>
+                            <TextBlock Grid.Column="1" Text="Disabled" Style="{DynamicResource KeyTextBlockStyle}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Viewbox>
+                    <Viewbox Grid.Column="5" Height="40">
+                        <StackPanel Orientation="Horizontal">
+                            <Border CornerRadius="2" BorderBrush="Black" BorderThickness="0.5" Height="25" Width="25" HorizontalAlignment="Right" Margin="0 0 0 0">
+                                <Rectangle Grid.Column="0" Fill="LightGray" Stroke="Black" StrokeThickness="1"/>
+                            </Border>
+                            <TextBlock Grid.Column="1" Text="No Connection" Style="{DynamicResource KeyTextBlockStyle}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Viewbox>
+                    <Viewbox Grid.Column="6" Height="40">
+                        <StackPanel Orientation="Horizontal">
+                            <Border CornerRadius="2" BorderBrush="Black" BorderThickness="0.5" Height="25" Width="25" HorizontalAlignment="Right" Margin="0 0 0 0">
+                                <Rectangle Grid.Column="0" Fill="{Binding LoadPortErrorColour}" Stroke="Black" StrokeThickness="1"/>
+                            </Border>
+                            <TextBlock Grid.Column="1" Text="Error" Style="{DynamicResource KeyTextBlockStyle}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Viewbox>
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding ViewModel.LoadPort_VM}" UseLayoutRounding="True">
+                <Image Source="/HMI_CoolingEquipment;component/Images/Layout.jpeg" Width="1800"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="975"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="785"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="1">
+                        <ItemsControl ItemsSource="{Binding RackModel.TrayRack}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Rows="1" Columns="3"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="22"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="127.5"/>
+                                        </Grid.RowDefinitions>
+                                        <ItemsControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding RackLoadPorts}" Margin="15 -4 25 -13">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <UniformGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Rows="7" Columns="5"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border CornerRadius="2" BorderBrush="Black" BorderThickness="1" Height="38" Width="38">
+                                                        <UniformGrid>
+                                                            <TextBlock Background="{Binding LoadPortStateAndConnection, Converter={StaticResource LoadPortStateToInterfaceConverter}, ConverterParameter=Colour}">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="{x:Type TextBlock}">
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding LoadPortStateAndConnection, Converter={StaticResource LoadPortStateToInterfaceConverter}, ConverterParameter=Blink}" Value="true">
+                                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding LoadPortStateAndConnection, Converter={StaticResource LoadPortStateToInterfaceConverter}, ConverterParameter=Blink}" Value="false">
+                                                                                <Setter Property="Visibility" Value="Visible" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                            <TextBlock Background="{Binding LoadPortColour}" >
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="{x:Type TextBlock}" >
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding LoadPortStateAndConnection, Converter={StaticResource LoadPortStateToInterfaceConverter}, ConverterParameter=Blink}" Value="true">
+                                                                                <Setter Property="Visibility" Value="Visible" />
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding LoadPortStateAndConnection, Converter={StaticResource LoadPortStateToInterfaceConverter}, ConverterParameter=Blink}" Value="false">
+                                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                        </UniformGrid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                    <Grid Grid.Column="3">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="150"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <ItemsControl ItemsSource="{Binding RackModel.TubeRack}" Grid.Row="1">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Rows="1" Columns="2"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="20"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="178"/>
+                                            </Grid.RowDefinitions>
+                                            <ItemsControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding RackLoadPorts}" Margin="20 -90 45 -200">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <UniformGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Rows="8" Columns="6"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border CornerRadius="2" BorderBrush="Black" BorderThickness="1" Height="38" Width="38" Visibility="{Binding LoadPortVisibility}">
+                                                            <UniformGrid>
+                                                                <TextBlock Background="{Binding LoadPortStateAndConnection, Converter={StaticResource LoadPortStateToInterfaceConverter}, ConverterParameter=Colour}">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="{x:Type TextBlock}">
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding LoadPortStateAndConnection, Converter={StaticResource LoadPortStateToInterfaceConverter}, ConverterParameter=Blink}" Value="true">
+                                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                                </DataTrigger>
+                                                                                <DataTrigger Binding="{Binding LoadPortStateAndConnection, Converter={StaticResource LoadPortStateToInterfaceConverter}, ConverterParameter=Blink}" Value="false">
+                                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+                                                                <TextBlock Background="{Binding LoadPortColour}" >
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="{x:Type TextBlock}" >
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding LoadPortStateAndConnection, Converter={StaticResource LoadPortStateToInterfaceConverter}, ConverterParameter=Blink}" Value="true">
+                                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                                </DataTrigger>
+                                                                                <DataTrigger Binding="{Binding LoadPortStateAndConnection, Converter={StaticResource LoadPortStateToInterfaceConverter}, ConverterParameter=Blink}" Value="false">
+                                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+                                                            </UniformGrid>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Viewbox>
+</UserControl>

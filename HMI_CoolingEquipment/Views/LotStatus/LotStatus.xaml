@@ -1,0 +1,361 @@
+﻿<UserControl x:Class="HMI_CoolingEquipment.Views.LotStatus.LotStatus"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HMI_CoolingEquipment.Views.LotStatus" xmlns:ie="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d">
+
+    <TabControl x:Name="LotStatusTabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <TabItem Header="Current">
+            <GroupBox>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid x:Name="DGSetupModel" Grid.Column="1" AutoGenerateColumns="False" ItemsSource="{Binding ViewModel.SetupJobModel}" HorizontalGridLinesBrush="Gray" GridLinesVisibility="Horizontal" CanUserAddRows="False" IsReadOnly="True" MinColumnWidth="150">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Status" MaxWidth="120">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox Style="{StaticResource IndicatorCheckBox}" IsChecked="{Binding IsJobError, Converter={StaticResource InverseBooleanConverter}}" Content="{Binding IsJobError, Converter={StaticResource IsErrorBoolToStatus}, ConverterParameter=Normal}" IsEnabled="False">
+                                            <CheckBox.LayoutTransform>
+                                                <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                            </CheckBox.LayoutTransform>
+                                        </CheckBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Lot ID" Binding="{Binding LotNo}" FontSize="15"/>
+                            <DataGridTextColumn Header="Job ID" Binding="{Binding JobID}" FontSize="15" />
+                            <DataGridTextColumn Header="Job Status" Binding="{Binding JobStatus}" FontSize="15" Visibility="Collapsed"/>
+                            <DataGridTextColumn Header="Job Created On" Binding="{Binding CreatedOn}" FontSize="15"/>
+                            <!--<DataGridTextColumn Header="No. Of Carriers" Binding="{Binding NoOfCarrier}" FontSize="15"/>-->
+                            <DataGridTextColumn Header="Carriers List" Binding="{Binding  Converter={StaticResource GetCarrierListForDisplay}, ConverterParameter=Current}" FontSize="15"/>
+                            <DataGridTextColumn Header="Loading Time (Start)" Binding="{Binding LD_START}" FontSize="15"/>
+                            <DataGridTextColumn Header="Loading Time (End)" Binding="{Binding LD_END}" FontSize="15" Visibility="Collapsed"/>
+                            <DataGridTextColumn Header="Cooling Time (Start)" Binding="{Binding CT_START}" FontSize="15"/>
+                            <DataGridTextColumn Header="Cooling Time (End)" Binding="{Binding CT_END}" FontSize="15" Visibility="Collapsed"/>
+                            <DataGridTextColumn Header="Staging Time (Start)" Binding="{Binding ST_START}" FontSize="15"/>
+                            <DataGridTextColumn Header="Staging Time (End)" Binding="{Binding ST_END}" FontSize="15" Visibility="Collapsed"/>
+                            <DataGridTemplateColumn Header="Details">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <Image Source="pack://application:,,,/HMI_CoolingEquipment;component/Images/Icons/help.png" Height="30" >
+                                                <ie:Interaction.Triggers>
+                                                    <ie:EventTrigger EventName="MouseLeftButtonDown">
+                                                        <ie:InvokeCommandAction Command="{Binding DataGridImageClickCommand}" CommandParameter="{Binding }"/>
+                                                    </ie:EventTrigger>
+                                                </ie:Interaction.Triggers>
+                                            </Image>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid Visibility="{Binding SetupJobButtonView}">
+                                            <Button Height="45" Width="150" Command="{Binding NonOpr_DataGridPurgeButtonClickCommand}" CommandParameter="{Binding }">
+                                                <UniformGrid Columns="2" HorizontalAlignment="Center">
+                                                    <Image Source="pack://application:,,,/HMI_CoolingEquipment;component/Images/Icons/hammer.png"/>
+                                                    <TextBlock Text="Purge" FontSize="15" Style="{DynamicResource MaterialDesignTitleTextBlock}" VerticalAlignment="Center"/>
+                                                </UniformGrid>
+                                                <Button.Style>
+                                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonBaseStyle}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="0">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="1">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="2">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="3">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="4">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="5">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="6">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="7">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="8">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
+                                            <Button Height="45" Width="150" Command="{Binding NonOpr_DataGridAbortButtonClickCommand}" CommandParameter="{Binding }">
+                                                <UniformGrid Columns="2" HorizontalAlignment="Center">
+                                                    <Image Source="pack://application:,,,/HMI_CoolingEquipment;component/Images/Icons/TrashCan.png"/>
+                                                    <TextBlock Text="Abort" FontSize="15" Style="{DynamicResource MaterialDesignTitleTextBlock}" VerticalAlignment="Center"/>
+                                                </UniformGrid>
+                                                <Button.Style>
+                                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonBaseStyle}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="0">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="1">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="2">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="3">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="4">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="5">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="6">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="7">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="8">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
+                                            <!--<Image Source="pack://application:,,,/HMI_CoolingEquipment;component/Images/Icons/hammer.png" Height="30" >
+                                                <ie:Interaction.Triggers>
+                                                    <ie:EventTrigger EventName="MouseLeftButtonDown">
+                                                        <ie:InvokeCommandAction Command="{Binding DataGridPurgeButtonClickCommand}" CommandParameter="{Binding }"/>
+                                                    </ie:EventTrigger>
+                                                </ie:Interaction.Triggers>
+                                                <Image.ToolTip>
+                                                    <TextBlock Text="Purge Job"/>
+                                                </Image.ToolTip>
+                                                <Image.Style>
+                                                    <Style TargetType="{x:Type Image}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="0">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="1">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="2">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="3">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="4">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="5">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="6">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="7">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="8">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>-->
+                                            <!--<Image Source="pack://application:,,,/HMI_CoolingEquipment;component/Images/Icons/TrashCan.png" Height="30" >
+                                                <ie:Interaction.Triggers>
+                                                    <ie:EventTrigger EventName="MouseLeftButtonDown">
+                                                        <ie:InvokeCommandAction Command="{Binding DataGridAbortButtonClickCommand}" CommandParameter="{Binding }"/>
+                                                    </ie:EventTrigger>
+                                                </ie:Interaction.Triggers>
+                                                <Image.ToolTip>
+                                                    <TextBlock Text="Abort Job"/>
+                                                </Image.ToolTip>
+                                                <Image.Style>
+                                                    <Style TargetType="{x:Type Image}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="0">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="1">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="2">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="3">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="4">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="5">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="6">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="7">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding JobStatus}" Value="8">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>-->
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </GroupBox>
+        </TabItem>
+        <TabItem Header="History">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="45*"/>
+                    <ColumnDefinition Width="871*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Margin="0,0,5,0" Grid.ColumnSpan="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <GroupBox Grid.Column="0">
+                            <Grid Margin="10 0 10 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="0"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Text="Date From: " HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="13"/>
+                                <DatePicker x:Name="FromDateDP" Grid.Column="2" IsTodayHighlighted="False" SelectedDate="{Binding ViewModel.FromDate}" HorizontalAlignment = "Center" VerticalAlignment = "Center" FontSize="13" SelectedDateChanged="SelectedDateChanged"/>
+                                <TextBlock Grid.Column="4" Text="Date To: " HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="13"/>
+                                <DatePicker x:Name="ToDateDP" Grid.Column="5" IsTodayHighlighted="False" SelectedDate="{Binding ViewModel.ToDate}" HorizontalAlignment = "Center" VerticalAlignment = "Center" FontSize="13" SelectedDateChanged="SelectedDateChanged"/>
+                                <Button Grid.Column="7" Height="40" Width="100" Command="{Binding ViewModel.FindJobHistoryCommand}" Visibility="Collapsed">
+                                    <WrapPanel Orientation="Horizontal">
+                                        <Image Source="/HMI_CoolingEquipment;component/Images/Icons/research.png" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="Search" Style="{DynamicResource MaterialDesignButtonTextBlock}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13"/>
+                                    </WrapPanel>
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonBaseStyle}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=FromDateDP, Path=SelectedDate}" Value="">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ElementName=ToDateDP, Path=SelectedDate}" Value="">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ElementName=FromDateDP, Path=SelectedDate}" Value="{x:Null}">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ElementName=ToDateDP, Path=SelectedDate}" Value="{x:Null}">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                                <Button Grid.Column="8" Height="40" Width="100" Command="{Binding ViewModel.ResetJobHistoryCommand}">
+                                    <WrapPanel Orientation="Horizontal">
+                                        <Image Source="/HMI_CoolingEquipment;component/Images/Icons/reload.png" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="Reset" Style="{DynamicResource MaterialDesignButtonTextBlock}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13"/>
+                                    </WrapPanel>
+                                </Button>
+                            </Grid>
+                        </GroupBox>
+                        <Button Grid.Column="3" Height="40" Command="{Binding ViewModel.GenerateJobCSVCommand}">
+                            <WrapPanel Orientation="Horizontal">
+                                <Image Source="/HMI_CoolingEquipment;component/Images/Icons/export.png" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Export To CSV" Style="{DynamicResource MaterialDesignButtonTextBlock}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13"/>
+                            </WrapPanel>
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonBaseStyle}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=JobHistoryTable, Path=Items.Count}" Value="0">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+                </StackPanel>
+                <GroupBox Grid.Row="1" Grid.ColumnSpan="2" Margin="4,4,4,4">
+                    <DataGrid x:Name="JobHistoryTable" AutoGenerateColumns="False" ItemsSource="{Binding ViewModel.SetupJobModelHistory}" HorizontalGridLinesBrush="Gray" GridLinesVisibility="Horizontal" CanUserAddRows="False" IsReadOnly="True" MinColumnWidth="150">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Lot ID" Binding="{Binding LotNo}" FontSize="15"/>
+                            <DataGridTextColumn Header="Job ID" Binding="{Binding JobID}" FontSize="15"/>
+                            <DataGridTextColumn Header="Job Created On" Binding="{Binding CreatedOn}" FontSize="15"/>
+                            <!--<DataGridTextColumn Header="No. Of Carriers" Binding="{Binding NoOfCarrier}" FontSize="15"/>-->
+                            <!--<DataGridTextColumn Header="List of Carriers" Binding="{Binding JobDetailsHistory, Converter={StaticResource GetCarrierListForDisplay}, ConverterParameter=History}" FontSize="15"/>-->
+                            <DataGridTextColumn Header="Loading Time (Start)" Binding="{Binding LD_START}" FontSize="15"/>
+                            <DataGridTextColumn Header="Loading Time (End)" Binding="{Binding LD_END}" FontSize="15" Visibility="Collapsed"/>
+                            <DataGridTextColumn Header="Cooling Time (Start)" Binding="{Binding CT_START}" FontSize="15"/>
+                            <DataGridTextColumn Header="Cooling Time (End)" Binding="{Binding CT_END}" FontSize="15" Visibility="Collapsed"/>
+                            <DataGridTextColumn Header="Staging Time (Start)" Binding="{Binding ST_START}" FontSize="15"/>
+                            <DataGridTextColumn Header="Staging Time (End)" Binding="{Binding ST_END}" FontSize="15" Visibility="Collapsed"/>
+                            <DataGridTextColumn Header="Job Completed On" Binding="{Binding CompletedOn}" FontSize="15"/>
+                            <DataGridTemplateColumn Header="Details">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <Image Source="pack://application:,,,/HMI_CoolingEquipment;component/Images/Icons/help.png" Height="30" >
+                                                <ie:Interaction.Triggers>
+                                                    <ie:EventTrigger EventName="MouseLeftButtonDown">
+                                                        <ie:InvokeCommandAction Command="{Binding DataGridImageClickHistoryCommand}" CommandParameter="{Binding JobDetailsHistory}"/>
+                                                    </ie:EventTrigger>
+                                                </ie:Interaction.Triggers>
+                                            </Image>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </GroupBox>
+            </Grid>
+        </TabItem>
+        <ie:Interaction.Triggers>
+            <ie:EventTrigger EventName="SelectionChanged">
+                <ie:InvokeCommandAction Command="{Binding ViewModel.LotStatusTabControlCommand}" CommandParameter="{Binding ElementName=LotStatusTabControl}" />
+            </ie:EventTrigger>
+        </ie:Interaction.Triggers>
+    </TabControl>
+</UserControl>

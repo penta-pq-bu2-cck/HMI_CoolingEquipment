@@ -1,0 +1,66 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:cmd="http://www.galasoft.ch/mvvmlight" x:Class="HMI_CoolingEquipment.Views.UnloadJobDetailsWindow"
+        mc:Ignorable="d"
+        Title="Job List Details" x:Name="UnloadingJobListDetails" Topmost="True" ResizeMode="NoResize" WindowStyle="SingleBorderWindow">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <cmd:EventToCommand Command="{Binding ViewModel.UnloadingJobDetailsWindowClosing}"
+                                EventArgsConverter="{StaticResource EventArgsConverter}"
+                                PassEventArgsToCommand="True">
+                <cmd:EventToCommand.EventArgsConverterParameter>
+                    <MultiBinding Converter="{StaticResource UnloadingSetupJobModelConverter}">
+                        <Binding ElementName="UnloadingJobListDetails"/>
+                        <Binding />
+                    </MultiBinding>
+                </cmd:EventToCommand.EventArgsConverterParameter>
+            </cmd:EventToCommand>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Row="0">
+            <DataGrid x:Name="DataGrid_JobList" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding ViewModel.SetupJobModel}" VerticalGridLinesBrush="Gray" HorizontalGridLinesBrush="Gray" GridLinesVisibility="Horizontal" CanUserAddRows="False" IsReadOnly="True" MinColumnWidth="200">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Status" MaxWidth="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox Style="{StaticResource IndicatorCheckBox}" IsChecked="{Binding IsJobError, Converter={StaticResource InverseBooleanConverter}}" Content="{Binding IsJobError, Converter={StaticResource IsErrorBoolToStatus}, ConverterParameter=Normal}" IsEnabled="False">
+                                    <CheckBox.LayoutTransform>
+                                        <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                    </CheckBox.LayoutTransform>
+                                </CheckBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Lot ID" Binding="{Binding LotNo}" FontSize="14"/>
+                    <!--<DataGridTextColumn Header="Job ID" Binding="{Binding JobID}"  FontSize="14"/>-->
+                    <DataGridTextColumn Header="No. Of Carriers" Binding="{Binding NoOfCarrier}" FontSize="14"/>
+                    <DataGridTextColumn Header="Staging Time (Start)" Binding="{Binding ST_START}" FontSize="14"/>
+                    <DataGridTextColumn Header="Staging Time (End)" Binding="{Binding ST_END}" FontSize="14"/>
+                    <DataGridTextColumn Header="Job Status" Binding="{Binding JobStatus}" FontSize="14"/>
+                    <DataGridTemplateColumn Header="Unload">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Select" Command="{Binding DataGridButtonClickCommand}">
+                                    <Button.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource UnloadingSetupJobModelConverter}">
+                                            <Binding ElementName="UnloadingJobListDetails"/>
+                                            <Binding />
+                                        </MultiBinding>
+                                    </Button.CommandParameter>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+    </Grid>
+</Window>

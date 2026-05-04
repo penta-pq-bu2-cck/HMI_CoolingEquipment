@@ -1,0 +1,22 @@
+﻿<Window x:Class="HMI_CoolingEquipment.Views.WaitingForHostWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HMI_CoolingEquipment.Views"
+        mc:Ignorable="d"
+        Title="Waiting For Host" Height="700" Width="1400"
+        WindowStartupLocation="CenterScreen" Topmost="True"
+        ResizeMode="NoResize" Background="Orange"
+        WindowStyle="None">
+    <Grid>
+        <TextBlock x:Name="MessageText"
+                   Text="Waiting For Host..."
+                   Foreground="Black"
+                   FontSize="140"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   TextWrapping="Wrap" />
+    </Grid>
+</Window>

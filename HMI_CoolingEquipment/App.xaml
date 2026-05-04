@@ -1,0 +1,52 @@
+<Application x:Class="HMI_CoolingEquipment.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:mahApps="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:HMI_CoolingEquipment"
+             d1p1:Ignorable="d"
+             Startup="Application_Startup">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HMI;component/Themes/MaterialDesign.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Pentamaster;component/HMI/Themes/HMI.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/PQ.HMI;component/Themes/Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="{x:Type mahApps:NumericUpDown}">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="Margin" Value="2" />
+                <Setter Property="Minimum" Value="-1000000" />
+                <Setter Property="MinWidth" Value="100" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+
+            <local:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
+            <local:UserAccountSignInModelConverter x:Key="UserAccountSignInModelConverter" />
+            <local:EventArgsConverter x:Key="EventArgsConverter" />
+            <local:NullToBooleanConverter x:Key="NullToBooleanConverter" />
+            <local:UserAccountEditorModelConverter x:Key="UserAccountEditorModelConverter" />
+            <local:PTLConnectionToBooleanConverter x:Key="PTLConnectionToBooleanConverter" />
+            <local:PTLLoadPortNamingConverter x:Key="PTLLoadPortNamingConverter" />
+            <local:CalculateLoadPortLocationUsed x:Key="CalculateLoadPortLocationUsed" />
+            <local:LoadPortStateToInterfaceConverter x:Key="LoadPortStateToInterfaceConverter" />
+            <local:IsErrorBoolToStatus x:Key="IsErrorBoolToStatus" />
+            <local:UnloadingSetupJobModelConverter x:Key="UnloadingSetupJobModelConverter" />
+            <local:CalculateSetupJobStatus x:Key="CalculateSetupJobStatus" />
+            <local:FrameBorderAlarmColourConverter x:Key="FrameBorderAlarmColourConverter" />
+            <local:SettingsSplitContentConverter x:Key="SettingsSplitContentConverter" />
+            <local:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+            <local:PTLCarrierTypeSplitter x:Key="PTLCarrierTypeSplitter" />
+            <local:GetCarrierListForDisplay x:Key="GetCarrierListForDisplay" />
+            <local:UserAccountGroupAccessVisibility x:Key="UserAccountGroupAccessVisibility" />
+            <local:LEDStateToBoolConverter x:Key="LEDStateToBoolConverter" />
+            <local:LEDColourToIndexConverter x:Key="LEDColourToIndexConverter" />
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

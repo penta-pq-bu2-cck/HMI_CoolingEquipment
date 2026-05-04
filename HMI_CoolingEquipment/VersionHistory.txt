@@ -1,0 +1,79 @@
+﻿Name: Aneisha Kadir (nur.aneisha@pentamaster.com.my)
+Date: 6/11/2025
+Version: V1.2.1.0
+Changes:
+1. Moved all UserAccountModel Add/Remove/Update operations to the UI thread using Dispatcher.Invoke
+
+Name: Soren (sorenkumar.paramanathan@pentamaster.com.my)
+Date: 6/11/2025
+Version: V1.2.0.0
+Changes:
+1. Added some logs for checking 
+2. Also Increase the buffer time from 1 to 2 second for cooling complete, then it change to loaded state.
+
+﻿Version         : V1.1.10.0
+Date Modified   : 20/8/2025
+Modified By     : Joshua (chan.jun.jie@pentamaster.com.my)
+Changes         :
+1. update user editor view model, reduce looping code
+
+Version         : V1.1.9.0
+Date Modified   : 15/8/2025
+Modified By     : Joshua (chan.jun.jie@pentamaster.com.my)
+Changes         :
+1. Separate LotStatus command and OprView command
+
+Name: Lok
+Date: 26/2/2025
+Version: 1.1.6.0
+Changes:
+1. Add New WaitingForHostWindow
+2. Ignore New Loading Process When WaitingForHostWindow Is Active
+3. New Warning Code 1007: Loading Process Have Been Blocked Due To Ongoing Loading Process
+
+Name: Lok
+Date: 25/2/2025
+Version: 1.1.5.0
+Changes:
+1. Deployed New Loading Mode
+2. Bug Fix on 'Get Loading Time From Settings'
+3. LoadPort UI Layout Update
+4. Hold thread when waiting for STARTJOB reply from host (data loss bug fix)
+
+Name: Lok
+Date: 24/1/2025
+Version: 1.1.4.0
+Changes:
+1. Check duplicate Job ID or Lot ID when receiving SETUPJOB command, instead of checking for both Job ID and Lot ID
+
+Name: Lok
+Date: 21/1/2025
+Version: 1.1.3.0
+Changes:
+1. Check Job Status Before Processing Scanned Carrier - Prompt Warning and Deny Loading Request if Job is Purged
+
+Name: Lok
+Date: 16/1/2025
+Version: 1.1.2.0
+Changes:
+1. Unloading UI Bug Fix
+2. Tray/Tube Rack Generated Based on Location (Previously Based On Carrier Type)
+3. New Loading Mode
+
+Name: Lok
+Date: 29/11/2024
+Version: 1.1.1.0
+Changes:
+1. Enable/Disable Location Bug (Load Port State = Empty but Load Port is Disabled)
+
+Name: Adib
+Date: 06/05/2024
+Version: 1.1.0.0
+Changes:
+1. Modified SecsGem event logic 
+
+Name: Adib
+Date: 06/05/2024
+Version: 1.0.0.0
+Changes:
+1. Initial Release (Started to record version History)

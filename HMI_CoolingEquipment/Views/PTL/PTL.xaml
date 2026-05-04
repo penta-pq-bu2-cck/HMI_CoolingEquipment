@@ -1,0 +1,196 @@
+﻿<UserControl x:Class="HMI_CoolingEquipment.Views.PTL"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HMI_CoolingEquipment.Views" xmlns:mahApps="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             x:Name="ThisWindow">
+
+    <TabControl x:Name="AlarmStatusTabControl">
+        <TabItem Header="Status">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <GroupBox Grid.Column="0" Header="Tray">
+                    <ScrollViewer>
+                        <ItemsControl ItemsSource="{Binding ViewModel.LoadPortModels, Converter={StaticResource PTLCarrierTypeSplitter}, ConverterParameter=Tray}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <GroupBox>
+                                        <StackPanel>
+                                            <CheckBox Style="{StaticResource IndicatorCheckBox}" IsChecked="{Binding LoadPortNodeConnectionStatus}" IsHitTestVisible="False">
+                                                <CheckBox.LayoutTransform>
+                                                    <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                                </CheckBox.LayoutTransform>
+                                                <CheckBox.Content>
+                                                    <MultiBinding Converter="{StaticResource PTLLoadPortNamingConverter}">
+                                                        <Binding Path="LoadPortID"/>
+                                                        <Binding Path="LoadPortIPAddress"/>
+                                                        <Binding Path="LoadPortNodeAddress"/>
+                                                    </MultiBinding>
+                                                </CheckBox.Content>
+                                            </CheckBox>
+                                            <CheckBox Content="Enable" IsChecked="{Binding LoadPortIsEnable}" Command="{Binding LoadPortIsEnableCommand}" CommandParameter="{Binding }"/>
+                                        </StackPanel>
+                                    </GroupBox>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </GroupBox>
+                <GroupBox Grid.Column="1" Header="Tube">
+                    <ScrollViewer>
+                        <ItemsControl ItemsSource="{Binding ViewModel.LoadPortModels, Converter={StaticResource PTLCarrierTypeSplitter}, ConverterParameter=Tube}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <GroupBox>
+                                        <StackPanel>
+                                            <CheckBox Style="{StaticResource IndicatorCheckBox}" IsChecked="{Binding LoadPortNodeConnectionStatus}" IsHitTestVisible="False">
+                                                <CheckBox.LayoutTransform>
+                                                    <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                                </CheckBox.LayoutTransform>
+                                                <CheckBox.Content>
+                                                    <MultiBinding Converter="{StaticResource PTLLoadPortNamingConverter}">
+                                                        <Binding Path="LoadPortID"/>
+                                                        <Binding Path="LoadPortIPAddress"/>
+                                                        <Binding Path="LoadPortNodeAddress"/>
+                                                    </MultiBinding>
+                                                </CheckBox.Content>
+                                            </CheckBox>
+                                            <CheckBox Content="Enable" IsChecked="{Binding LoadPortIsEnable}" Command="{Binding LoadPortIsEnableCommand}" CommandParameter="{Binding }"/>
+                                        </StackPanel>
+                                    </GroupBox>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </GroupBox>
+                <GroupBox Grid.Column="2" Header="Gateway Status">
+                    <ItemsControl ItemsSource="{Binding ViewModel.ConnectionInfos}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <GroupBox>
+                                    <StackPanel>
+                                        <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat=" {0}. {1} [{2}]">
+                                                    <Binding Path="GatewayID"/>
+                                                    <Binding Path="GatewayIP"/>
+                                                    <Binding Path="GatewayPort"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                        <CheckBox Style="{StaticResource IndicatorCheckBox}" Content="{Binding GatewayConnectionValue}" IsChecked="{Binding GatewayConnectionCode, Converter={StaticResource PTLConnectionToBooleanConverter}, ConverterParameter=Normal}" IsHitTestVisible="False">
+                                            <CheckBox.LayoutTransform>
+                                                <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                            </CheckBox.LayoutTransform>
+                                        </CheckBox>
+                                        <UniformGrid Columns="1">
+                                            <Button Content="Connect" Height="40" Command="{Binding ConnectPTLCommand}" CommandParameter="{Binding }" IsEnabled="{Binding GatewayConnectionCode, Converter={StaticResource PTLConnectionToBooleanConverter}, ConverterParameter=Inverse}"/>
+                                            <Button Content="Disconnect" Height="40" Command="{Binding DisconnectPTLCommand}" CommandParameter="{Binding }" IsEnabled="{Binding GatewayConnectionCode, Converter={StaticResource PTLConnectionToBooleanConverter}, ConverterParameter=Normal}" Background="Red" BorderBrush="Red"/>
+                                        </UniformGrid>
+                                    </StackPanel>
+                                </GroupBox>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </GroupBox>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Settings" >
+            <GroupBox Grid.Column="1">
+                <UniformGrid Columns="3">
+                    <GroupBox Header="Set Best Polling Range" VerticalAlignment="Top">
+                        <StackPanel>
+                            <UniformGrid Columns="1">
+                                <Button Content="Set" Height="40" Command="{Binding ViewModel.SetBestPollingRangeCommand}"/>
+                            </UniformGrid>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Show All Address">
+                        <StackPanel>
+                            <Button Content="Shows" Height="40" Command="{Binding ViewModel.ShowAllAddress}" CommandParameter="Shows"/>
+                            <Button Content="Clear" Height="40" Command="{Binding ViewModel.ShowAllAddress}" CommandParameter="Clear" Background="Red" BorderBrush="Red"/>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Led Testing">
+                        <StackPanel>
+                            <mahApps:NumericUpDown x:Name="LedState" Minimum="0" Maximum="2" Value="0"/>
+                            <Button Content="Enable" Height="40" Command="{Binding ViewModel.EnableLedTestingCommand}" CommandParameter="{Binding ElementName=LedState, Path=Value}"/>
+                            <Button Content="Disable" Height="40" Command="{Binding ViewModel.DisableLedTestingCommand}" Background="Red" BorderBrush="Red"/>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Sensor Testing">
+                        <StackPanel>
+                            <Button Content="Enable" Height="40" Command="{Binding ViewModel.EnableSensorTestingCommand}"/>
+                            <Button Content="Disable" Height="40" Command="{Binding ViewModel.DisableSensorTestingCommand}" Background="Red" BorderBrush="Red"/>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="PTL LED Configuration">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="50"/>
+                            </Grid.RowDefinitions>
+                            <ScrollViewer Grid.Row="0">
+                                <ItemsControl ItemsSource="{Binding ViewModel.LoadPortConfig}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="150"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" Text="{Binding LoadPortStatusKey, StringFormat={}{0} : }" Style="{StaticResource KeyTextBlockStyle}" FontSize="15"/>
+                                                <ComboBox Grid.Column="1" x:Name="CBLedColour" ItemsSource="{Binding ComboBoxValues}" HorizontalAlignment="Center" MinWidth="200" HorizontalContentAlignment="Center" SelectedIndex="{Binding LoadPortLEDColour, Mode=TwoWay, Converter={StaticResource LEDColourToIndexConverter}}"/>
+                                                <CheckBox Grid.Column="2" Content="Blinking" IsChecked="{Binding LoadPortLEDState, Mode=TwoWay, Converter={StaticResource LEDStateToBoolConverter}}">
+                                                    <CheckBox.Style>
+                                                        <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource MaterialDesignPentamasterCheckBox}">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding ElementName=CBLedColour, Path=SelectedValue}" Value="NoColour">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </CheckBox.Style>
+                                                </CheckBox>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                            <Button Grid.Row="1" Content="Save" Height="40" Command="{Binding ViewModel.SaveLoadPortConfigCommand}"/>
+                        </Grid>
+                    </GroupBox>
+                </UniformGrid>
+            </GroupBox>
+        </TabItem>
+    </TabControl>
+    
+</UserControl>

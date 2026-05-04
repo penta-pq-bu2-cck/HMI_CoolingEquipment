@@ -1,0 +1,50 @@
+﻿<Window x:Class="HMI_CoolingEquipment.Views.SecsGemCusVarWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="SecsGemCusVarWindow" Height="450" Width="Auto">
+
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBlock}" x:Key="WrapText">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="FontSize" Value="15"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <GroupBox Grid.Row="0" Header="SecsGem Custom Variable List">
+                <DataGrid AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalGridLinesBrush="Black" GridLinesVisibility="All" CanUserAddRows="False" ItemsSource="{Binding ViewModel.SecsGemCusVarList}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="VarID" Binding="{Binding VarID}" Width="*" ElementStyle="{StaticResource WrapText}"/>
+                        <DataGridTextColumn Header="VarName" Binding="{Binding VarName}" Width="*" ElementStyle="{StaticResource WrapText}"/>
+                        <DataGridTextColumn Header="VarGroup" Binding="{Binding VarGroup}" Width="*" ElementStyle="{StaticResource WrapText}"/>
+                        <DataGridTextColumn Header="VarDescription" Binding="{Binding VarDesc}" Width="*" ElementStyle="{StaticResource WrapText}"/>
+                        <DataGridTextColumn Header="VarType" Binding="{Binding VarType}" Width="*" ElementStyle="{StaticResource WrapText}"/>
+                        <DataGridTextColumn Header="VarFormat" Binding="{Binding VarFormat}" Width="*" ElementStyle="{StaticResource WrapText}"/>
+                        <DataGridTextColumn Header="VarValue" Binding="{Binding VarVal}" Width="*" ElementStyle="{StaticResource WrapText}"/>
+                        <DataGridTextColumn Header="VarDefaultValue" Binding="{Binding VarDefaultVal}" Width="*" ElementStyle="{StaticResource WrapText}"/>
+                        <DataGridTextColumn Header="VarMin" Binding="{Binding VarMin}" Width="*" ElementStyle="{StaticResource WrapText}"/>
+                        <DataGridTextColumn Header="VarMax" Binding="{Binding VarMax}" Width="*" ElementStyle="{StaticResource WrapText}"/>
+                        <DataGridTextColumn Header="VarParentKey" Binding="{Binding VarParentKey}" Width="*" ElementStyle="{StaticResource WrapText}"/>
+                        <DataGridTextColumn Header="VarAccessId" Binding="{Binding VarAccessId}" Width="*" ElementStyle="{StaticResource WrapText}"/>
+                        <DataGridTextColumn Header="VarOrderByAccessId" Binding="{Binding VarOrderByAccessId}" Width="*" ElementStyle="{StaticResource WrapText}"/>
+                        <DataGridTextColumn Header="VarAllowDuplicates" Binding="{Binding VarAllowDuplicates}" Width="*" ElementStyle="{StaticResource WrapText}"/>
+                        <DataGridTemplateColumn Width="200">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Select" Command="{Binding SelectVarCommand}" CommandParameter="{Binding }"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</Window>

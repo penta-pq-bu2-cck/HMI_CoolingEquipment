@@ -1,0 +1,110 @@
+﻿<Window x:Class="HMI_CoolingEquipment.Views.Frame"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HMI_CoolingEquipment.Views" 
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:ie="http://schemas.microsoft.com/expression/2010/interactivity"
+        mc:Ignorable="d"
+        Title="{Binding ViewModel.CurrentTitle}" WindowState="Maximized">
+
+    <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=ToggleButtonMenu, Path=IsChecked}">
+        <materialDesign:DrawerHost.LeftDrawerContent>
+            <Grid MinWidth="200">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Margin="16"
+                           Style="{StaticResource MaterialDesignHeadlineTextBlock}"
+                           Text="Menu" VerticalAlignment="Center" />
+                <ToggleButton Grid.Row="0" Grid.Column="1"
+                              Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                              HorizontalAlignment="Right" Margin="16"
+                              IsChecked="{Binding ElementName=ToggleButtonMenu, Path=IsChecked}" />
+                <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                         ItemsSource="{Binding ViewModel.Frame_InterfaceModel.MenuModel.MenuModels}"
+                         VirtualizingPanel.IsVirtualizing="True"
+                         VirtualizingPanel.VirtualizationMode="Recycling"
+                         SelectedItem="{Binding ViewModel.Frame_InterfaceModel.MenuModel.MenuSelectedItem}"
+                         SelectedIndex="{Binding ViewModel.Frame_InterfaceModel.MenuModel.MenuSelectedIndex}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel Height="40">
+                                <Image DockPanel.Dock="Left"
+                                       Source="{Binding MenuImage}" />
+                                <TextBlock DockPanel.Dock="Right"
+                                           Padding="10 0"
+                                           Text="{Binding MenuName}"
+                                           VerticalAlignment="Center"
+                                           Style="{DynamicResource MaterialDesignPentamasterBody1CenterTextBlock}"/>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ie:Interaction.Triggers>
+                        <ie:EventTrigger EventName="SelectionChanged">
+                            <ie:InvokeCommandAction Command="{Binding ViewModel.Frame_InterfaceModel.MenuModel.MenuCommand}" CommandParameter="{Binding ElementName=ToggleButtonMenu}"/>
+                        </ie:EventTrigger>
+                    </ie:Interaction.Triggers>
+                </ListBox>
+            </Grid>
+        </materialDesign:DrawerHost.LeftDrawerContent>
+        <materialDesign:DialogHost x:Name="DialogHostPrompt">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Background="{Binding ViewModel.Frame_InterfaceModel.CurrentAlarmMessage, Converter={StaticResource FrameBorderAlarmColourConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+                    <ToggleButton Grid.Column="0" x:Name="ToggleButtonMenu"
+                                  Style="{StaticResource MaterialDesignHamburgerToggleButton}" Margin="16" Visibility="{Binding ViewModel.Frame_InterfaceModel.UserAccount, Converter={StaticResource UserAccountGroupAccessVisibility}, ConverterParameter=Normal}"/>
+                    <Image Grid.Column="1" Source="pack://application:,,,/HMI_CoolingEquipment;component/Images/Penta.png" Width="100">
+                        <ie:Interaction.Triggers>
+                            <ie:EventTrigger EventName="MouseLeftButtonDown">
+                                <ie:InvokeCommandAction Command="{Binding ViewModel.Frame_InterfaceModel.PentaIconCommand}" />
+                            </ie:EventTrigger>
+                        </ie:Interaction.Triggers>
+                    </Image>
+                    <local:AlarmView Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" IsEnabled="True" Margin="0 0 -10 0" />
+                    <local:UserAccountView Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" IsEnabled="True" Margin="0 0 10 0" />
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.1*"/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Grid.Column="0"
+                          Header="{Binding ViewModel.Frame_InterfaceModel.ContentHeader}">
+                        <ContentControl Content="{Binding ViewModel.Frame_InterfaceModel.ContentControl}" />
+                    </GroupBox>
+                    <GroupBox Grid.Column="1">
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Height="100" Command="{Binding ViewModel.ResetButtonCommand}">
+                            <DockPanel>
+                                <TextBlock DockPanel.Dock="Bottom" Style="{DynamicResource CenterTextBlock}" Text="Reset"/>
+                                <Image DockPanel.Dock="Top" Source="pack://application:,,,/HMI_CoolingEquipment;component/Images/Icons/reload.png"/>
+                             </DockPanel>
+                        </Button>
+                    </GroupBox>
+                </Grid>
+            </Grid>
+        </materialDesign:DialogHost>
+    </materialDesign:DrawerHost>
+        
+</Window>

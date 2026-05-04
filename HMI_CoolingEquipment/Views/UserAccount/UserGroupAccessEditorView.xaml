@@ -1,0 +1,148 @@
+﻿<Window x:Class="HMI_CoolingEquipment.Views.UserGroupAccessEditorView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HMI_CoolingEquipment.Views" xmlns:mahApps="http://metro.mahapps.com/winfx/xaml/controls" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:cmd="http://www.galasoft.ch/mvvmlight"
+        mc:Ignorable="d"
+        x:Name="UserGroupAccessEditorWindow" Height="800"
+        ResizeMode="CanResize" TextElement.FontSize="16"
+        TextElement.FontWeight="Regular" TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto" Title="User Group Access Editor"
+        Topmost="True" Width="1000" WindowStartupLocation="CenterScreen">
+    
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <cmd:EventToCommand Command="{Binding ViewModel.UserGroupAccessEditorViewClosingCommand}"
+                                EventArgsConverter="{StaticResource EventArgsConverter}"
+                                EventArgsConverterParameter="{Binding ElementName=UserGroupAccessEditorWindow}"
+                                PassEventArgsToCommand="True" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <GroupBox Grid.Row="0">
+            <GroupBox.Header>
+                <Grid Height="{DynamicResource DefaultHeaderHeight}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Image Grid.Column="0" Source="pack://application:,,,/HMI_CoolingEquipment;component/Images/Icons/Pencil.png" />
+                    <TextBlock Grid.Column="1" Style="{StaticResource MaterialDesignHeadlineTextBlock}"
+                               Text="Edit" />
+                </Grid>
+            </GroupBox.Header>
+
+            <Grid Height="{DynamicResource ButtonHeaderHeight}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Image Grid.Column="0" Source="pack://application:,,,/HMI;component/Icons/Group.png" Width="70" />
+                <TextBlock Grid.Column="1" Style="{StaticResource KeyTextBlockStyle}" Text="Group" />
+
+                <ComboBox Grid.Column="2" x:Name="UserGroupAccessComboBox"
+                          DisplayMemberPath="UserGroup" Width="150"
+                          IsEditable="True" ItemsSource="{Binding ViewModel.UserGroupAccess}" SelectedIndex="{Binding ViewModel.ComboBoxSelectedIndex}" />
+
+                <Button Grid.Column="3" Command="{Binding ViewModel.AddUserAccountGroupCommand}"
+                        CommandParameter="{Binding ElementName=UserGroupAccessComboBox}" Height="50">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonBaseStyle}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=UserGroupAccessComboBox, Path=Text}"
+                                             Value="">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ElementName=UserGroupAccessComboBox, Path=Text}"
+                                             Value="{x:Null}">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Image Grid.Column="0" Source="pack://application:,,,/HMI_CoolingEquipment;component/Images/Icons/Add.png" Width="40" />
+                        <TextBlock Grid.Column="1" Style="{StaticResource ValueTextBlockStyle}"
+                                   Text="Add" />
+                    </Grid>
+                </Button>
+
+                <Button Grid.Column="4" Command="{Binding ViewModel.DeleteUserAccountGroupCommand}"
+                        CommandParameter="{Binding ElementName=UserGroupAccessComboBox, Path=SelectedItem}" Height="50"
+                        IsEnabled="True">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Image Grid.Column="0" Source="pack://application:,,,/HMI;component/Icons/TrashCan.png" Width="40" />
+                        <TextBlock Grid.Column="1" Style="{StaticResource ValueTextBlockStyle}"
+                                   Text="Delete" />
+                    </Grid>
+                </Button>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="1">
+            <GroupBox.Header>
+                <Grid Height="{DynamicResource ButtonHeaderHeight}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Image Grid.Column="0" Source="pack://application:,,,/HMI;component/Icons/Group.png" />
+                    <TextBlock Grid.Column="1" Style="{StaticResource MaterialDesignHeadlineTextBlock}"
+                               Text="Group" />
+                </Grid>
+            </GroupBox.Header>
+
+            <DataGrid AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding ViewModel.UserGroupAccess}" HorizontalGridLinesBrush="Black" GridLinesVisibility="All" CanUserAddRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="User Group" Binding="{Binding UserGroup}" FontSize="20"/>
+                    <DataGridCheckBoxColumn Header="Lot Status" Binding="{Binding LotStatusPageAccess}"/>
+                    <DataGridCheckBoxColumn Header="Loading Page" Binding="{Binding LoadingPageAccess}"/>
+                    <DataGridCheckBoxColumn Header="Unloading Page" Binding="{Binding UnloadingPageAccess}"/>
+                    <DataGridCheckBoxColumn Header="SecsGem Page" Binding="{Binding SecsGemPageAccess}"/>
+                    <DataGridCheckBoxColumn Header="Setting Page" Binding="{Binding SettingPageAccess}"/>
+                    <DataGridCheckBoxColumn Header="Edit User Group" Binding="{Binding EditUserGroupAccess}"/>
+                    <DataGridCheckBoxColumn Header="Edit User Account List" Binding="{Binding EditUserAccountList}"/>
+                    <DataGridCheckBoxColumn Header="PTL Page" Binding="{Binding PTLPageAccess}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+
+        <Button Grid.Row="2" Command="{Binding ViewModel.SaveUserGroupAccessCommand}"
+                CommandParameter="{Binding ElementName=UserGroupAccessEditorWindow}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Image Grid.Column="0" Source="pack://application:,,,/HMI;component/Icons/Diskette.png" Width="40" />
+                <TextBlock Grid.Column="1" Style="{StaticResource ValueTextBlockStyle}"
+                           Text="Save" />
+            </Grid>
+        </Button>
+    </Grid>
+</Window>

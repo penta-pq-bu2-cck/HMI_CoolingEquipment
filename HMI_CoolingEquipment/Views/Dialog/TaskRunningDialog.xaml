@@ -1,0 +1,33 @@
+﻿<Window x:Class="HMI_CoolingEquipment.Views.Dialog.TaskRunningDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HMI_CoolingEquipment.Views.Dialog"
+        xmlns:ie="http://schemas.microsoft.com/expression/2010/interactivity"
+        mc:Ignorable="d" WindowStartupLocation="CenterOwner"
+        Title="TaskRunningDialog" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <Image Source="pack://application:,,,/HMI_CoolingEquipment;component/Images/Penta.png" Width="100" Grid.ColumnSpan="2">
+            <ie:Interaction.Triggers>
+                <ie:EventTrigger EventName="MouseLeftButtonDown">
+                    <ie:InvokeCommandAction Command="{Binding ViewModel.Frame_InterfaceModel.PentaIconCommand}" />
+                </ie:EventTrigger>
+            </ie:Interaction.Triggers>
+        </Image>
+
+        <TextBlock Text="{Binding TaskRunningContent}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.ColumnSpan="2" FontSize="18"/>
+
+        <Button Content="Cancel" Background="Red" Grid.Row="2" Grid.ColumnSpan="2" Click="CancelButton_Click"/>
+    </Grid>
+</Window>
