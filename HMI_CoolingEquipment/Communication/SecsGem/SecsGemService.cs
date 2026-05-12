@@ -666,8 +666,10 @@ namespace HMI_CoolingEquipment.Communication
                                 {
                                     setupjob.NoOfCarrier = jobs.Count();
                                     LogHelper.General(2, $"Send setup job command, JobID={setupjob.JobID}, LotNo={setupjob.LotNo}");
-                                    EF_Service.EF_InsertSetupJob(setupjob);
+                                    // Carrier rows must land in JOBDETAILS *before* the SETUPJOB memory broadcast,
+                                    // otherwise the LotStatus "Carriers List" converter (live DB query) renders empty.
                                     EF_Service.EF_InsertJobDetails(jobs);
+                                    EF_Service.EF_InsertSetupJob(setupjob);
                                     EF_Service.EF_InsertEventLog("TRACE", "SECSGEM", setupjob.JobID, setupjob.LotNo, "", "", "", "Received S2F49-SETUPJOB Command");
                                     arg.GEMProCommand.HCACK = 0;
                                 }
